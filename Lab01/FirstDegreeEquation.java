@@ -1,7 +1,7 @@
 import java.net.http.HttpResponse.PushPromiseHandler;
 import java.util.Scanner;
 public class FirstDegreeEquation {
-    public void main (String args[]){
+    public static void main (String[] args){
         double a, b;
         Scanner s = new Scanner(System.in);
         a = s.nextDouble();
