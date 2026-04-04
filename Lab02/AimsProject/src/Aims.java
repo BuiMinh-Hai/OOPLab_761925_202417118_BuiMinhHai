@@ -1,5 +1,3 @@
-
-
 public class Aims {
 
     public static void main(String[] args) {
@@ -7,16 +5,18 @@ public class Aims {
         Cart anOrder = new Cart();
 
         DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f);
-        anOrder.addDigitalVideoDisc(dvd1);
-
         DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", "Science Fiction", "George Lucas", 87, 24.95f);
-        anOrder.addDigitalVideoDisc(dvd2);
-
         DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", "Animation", 18.99f);
-        anOrder.addDigitalVideoDisc(dvd3);
+        DigitalVideoDisc dvd4 = new DigitalVideoDisc("The Matrix", "Action", 20.00f);
+        DigitalVideoDisc dvd5 = new DigitalVideoDisc("Inception", "Sci-Fi", 22.50f);
 
-        // In danh sách đĩa và tổng tiền ra màn hình
+        DigitalVideoDisc[] dvdArray = {dvd1, dvd2}; // Tạo mảng chứa dvd1 và dvd2
+        anOrder.addDigitalVideoDisc(dvdArray);      // Gọi hàm nạp chồng thứ nhất
         anOrder.printCart();
+
+        anOrder.addDigitalVideoDisc(dvd4, dvd5);    // Gọi hàm nạp chồng thứ hai
+        anOrder.printCart();
+
 
         // Thử xóa đĩa dvd2 (Star Wars)
         anOrder.removeDigitalVideoDisc(dvd2);

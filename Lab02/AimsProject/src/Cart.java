@@ -14,6 +14,32 @@ public class Cart {
         }
     }
 
+    // THÊM MỘT MẢNG CÁC ĐĨA 
+    public void addDigitalVideoDisc(DigitalVideoDisc[] dvdList) {
+        if (qtyOrdered + dvdList.length <= MAX_NUMBERS_ORDERED) {
+            for (int i = 0; i < dvdList.length; i++) {
+                itemsOrdered[qtyOrdered] = dvdList[i];
+                qtyOrdered++;
+            }
+            System.out.println("The disc list has been added.");
+        } else {
+            System.out.println("The cart is almost full. Cannot add the list.");
+        }
+    }
+
+    // THÊM 2 ĐĨA CÙNG LÚC 
+    public void addDigitalVideoDisc(DigitalVideoDisc dvd1, DigitalVideoDisc dvd2) {
+        if (qtyOrdered + 2 <= MAX_NUMBERS_ORDERED) {
+            itemsOrdered[qtyOrdered] = dvd1;
+            qtyOrdered++;
+            itemsOrdered[qtyOrdered] = dvd2;
+            qtyOrdered++;
+            System.out.println("The 2 discs have been added.");
+        } else {
+            System.out.println("The cart is almost full. Cannot add 2 discs.");
+        }
+    }
+
 
     public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
         boolean found = false;
