@@ -23,5 +23,10 @@ public class Aims {
         
         // In lại giỏ hàng để xác nhận đĩa dvd2 đã biến mất và tổng tiền được tính lại
         anOrder.printCart();
+
+        // Kiểm tra ID tự động cấp phát 
+        System.out.println("ID 1 (" + dvd1.getTitle() + ") : " + dvd1.getId());
+        System.out.println("ID 2 (" + dvd2.getTitle() + ") : " + dvd2.getId());
+        System.out.println("ID 3 (" + dvd3.getTitle() + ") : " + dvd3.getId());
     }
 }
