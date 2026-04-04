@@ -1,0 +1,7 @@
+Question 1: After the call of swap(jungleDVD, cinderellaDVD) why does the title of these two objects still remain?
+
+Answer: Because Java strictly uses pass-by-value. When the swap method is called, Java does not pass the actual reference variables, but rather creates copies of their memory addresses and assigns them to the local parameters (o1 and o2). Inside the method, we are only swapping these local copies. The original reference variables jungleDVD and cinderellaDVD in the main method are completely unaffected and continue to point to their original objects.
+
+Question 2: After the call of changeTitle(jungleDVD, cinderellaDVD.getTitle()) why is the title of the JungleDVD changed?
+
+Answer: Even though the parameter dvd is just a copy of the reference, it still points to the exact same object in memory as the original jungleDVD. When the method executes dvd.setTitle(title), it directly modifies the internal state (the title attribute) of that shared object. Therefore, the change is reflected outside the method.
