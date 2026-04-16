@@ -1,8 +1,13 @@
+package hust.soict.globalict.aims.cart;
+
+import hust.soict.globalict.aims.disc.DigitalVideoDisc;
+
 public class Cart {
     public static final int MAX_NUMBERS_ORDERED = 20;
     private DigitalVideoDisc itemsOrdered[] = new DigitalVideoDisc[MAX_NUMBERS_ORDERED];
-    
-    private int qtyOrdered = 0; 
+    private int qtyOrdered = 0;
+
+    // --- CÁC PHƯƠNG THỨC THÊM/XÓA TỪ LAB 02 ---
 
     public void addDigitalVideoDisc(DigitalVideoDisc disc) {
         if (qtyOrdered < MAX_NUMBERS_ORDERED) {
@@ -14,7 +19,6 @@ public class Cart {
         }
     }
 
-    // THÊM MỘT MẢNG CÁC ĐĨA 
     public void addDigitalVideoDisc(DigitalVideoDisc[] dvdList) {
         if (qtyOrdered + dvdList.length <= MAX_NUMBERS_ORDERED) {
             for (int i = 0; i < dvdList.length; i++) {
@@ -27,7 +31,6 @@ public class Cart {
         }
     }
 
-    // THÊM 2 ĐĨA CÙNG LÚC 
     public void addDigitalVideoDisc(DigitalVideoDisc dvd1, DigitalVideoDisc dvd2) {
         if (qtyOrdered + 2 <= MAX_NUMBERS_ORDERED) {
             itemsOrdered[qtyOrdered] = dvd1;
@@ -40,18 +43,14 @@ public class Cart {
         }
     }
 
-
     public void removeDigitalVideoDisc(DigitalVideoDisc disc) {
         boolean found = false;
         for (int i = 0; i < qtyOrdered; i++) {
-            // Kiểm tra xem đĩa có trong giỏ không
             if (itemsOrdered[i] == disc) {
                 found = true;
-                // Dồn các phần tử phía sau lên trước để lấp khoảng trống
                 for (int j = i; j < qtyOrdered - 1; j++) {
                     itemsOrdered[j] = itemsOrdered[j + 1];
                 }
-                // Xóa phần tử bị dư ở cuối
                 itemsOrdered[qtyOrdered - 1] = null; 
                 qtyOrdered--;
                 System.out.println("The disc has been removed.");
@@ -63,7 +62,6 @@ public class Cart {
         }
     }
 
-
     public float totalCost() {
         float total = 0;
         for (int i = 0; i < qtyOrdered; i++) {
@@ -72,13 +70,47 @@ public class Cart {
         return total;
     }
 
+    // --- CÁC PHƯƠNG THỨC CẬP NHẬT MỚI CHO LAB 03 ---
 
+    // In danh sách đĩa trong giỏ hàng theo định dạng yêu cầu 
     public void printCart() {
-
+        System.out.println("***********************CART***********************");
+        System.out.println("Ordered Items:");
         for (int i = 0; i < qtyOrdered; i++) {
-            System.out.println((i + 1) + ". " + itemsOrdered[i].getTitle() + " - " + itemsOrdered[i].getCost());
+            // Sử dụng phương thức toString() được viết trong lớp DigitalVideoDisc
+            System.out.println((i + 1) + ". " + itemsOrdered[i].toString());
         }
-        System.out.println("Total Cost: " + totalCost());
+        System.out.println("Total cost: " + totalCost() + " $");
+        System.out.println("***************************************************");
+    }
 
+    // Tìm kiếm DVD trong giỏ hàng theo ID 
+    public void searchById(int id) {
+        boolean found = false;
+        for (int i = 0; i < qtyOrdered; i++) {
+            if (itemsOrdered[i].getId() == id) {
+                System.out.println("Found match: " + itemsOrdered[i].toString());
+                found = true;
+                break;
+            }
+        }
+        if (!found) {
+            System.out.println("No match found for ID: " + id);
+        }
+    }
+
+    // Tìm kiếm DVD trong giỏ hàng theo tiêu đề 
+    public void searchByTitle(String title) {
+        boolean found = false;
+        for (int i = 0; i < qtyOrdered; i++) {
+            // Sử dụng phương thức isMatch() được viết trong lớp DigitalVideoDisc
+            if (itemsOrdered[i].isMatch(title)) {
+                System.out.println("Found match: " + itemsOrdered[i].toString());
+                found = true;
+            }
+        }
+        if (!found) {
+            System.out.println("No match found for title: \"" + title + "\"");
+        }
     }
 }
