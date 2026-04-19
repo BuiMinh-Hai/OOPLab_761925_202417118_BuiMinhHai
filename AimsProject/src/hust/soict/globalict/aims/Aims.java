@@ -1,36 +1,292 @@
 package hust.soict.globalict.aims;
+
 import hust.soict.globalict.aims.cart.Cart;
-import hust.soict.globalict.aims.disc.DigitalVideoDisc;
+import hust.soict.globalict.aims.media.DigitalVideoDisc;
+import hust.soict.globalict.aims.media.Media;
+import hust.soict.globalict.aims.media.Playable;
+import hust.soict.globalict.aims.store.Store;
+import java.util.Scanner; // Bỏ comment nếu bạn đã tạo Playable
 
 public class Aims {
+    
+    // Khởi tạo các đối tượng dùng chung
+    public static Store store = new Store(); 
+    public static Cart cart = new Cart();
+    public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
+        // --- Thêm dữ liệu mẫu vào Store ở đây ---
+        store.addMedia(new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f));
+        store.addMedia(new DigitalVideoDisc("Star Wars", "Science Fiction", "George Lucas", 87, 24.95f));
+        store.addMedia(new DigitalVideoDisc("Aladin", "Animation", 18.99f));
+
+        int choice;
+        do {
+            showMenu();
+            choice = scanner.nextInt();
+            scanner.nextLine(); // Đọc bỏ ký tự Enter
+
+            switch (choice) {
+                case 1:
+                    viewStore();
+                    break;
+                case 2:
+                    updateStore();
+                    break;
+                case 3:
+                    seeCurrentCart();
+                    break;
+                case 0:
+                    System.out.println("Exiting AIMS. Goodbye!");
+                    break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+            }
+        } while (choice != 0);
         
-        Cart anOrder = new Cart();
+        scanner.close();
+    }
 
-        DigitalVideoDisc dvd1 = new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f);
-        DigitalVideoDisc dvd2 = new DigitalVideoDisc("Star Wars", "Science Fiction", "George Lucas", 87, 24.95f);
-        DigitalVideoDisc dvd3 = new DigitalVideoDisc("Aladin", "Animation", 18.99f);
-        DigitalVideoDisc dvd4 = new DigitalVideoDisc("The Matrix", "Action", 20.00f);
-        DigitalVideoDisc dvd5 = new DigitalVideoDisc("Inception", "Sci-Fi", 22.50f);
+    // ==================== CÁC MENU GIAO DIỆN ====================
 
-        DigitalVideoDisc[] dvdArray = {dvd1, dvd2}; // Tạo mảng chứa dvd1 và dvd2
-        anOrder.addDigitalVideoDisc(dvdArray);      // Gọi hàm nạp chồng thứ nhất
-        anOrder.printCart();
+    public static void showMenu() {
+        System.out.println("\nAIMS: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. View store");
+        System.out.println("2. Update store");
+        System.out.println("3. See current cart");
+        System.out.println("0. Exit");
+        System.out.println("--------------------------------");
+        System.out.print("Please choose a number: 0-1-2-3: ");
+    }
 
-        anOrder.addDigitalVideoDisc(dvd4, dvd5);    // Gọi hàm nạp chồng thứ hai
-        anOrder.printCart();
+    public static void storeMenu() {
+        System.out.println("\nOptions: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. See a media's details");
+        System.out.println("2. Add a media to cart");
+        System.out.println("3. Play a media");
+        System.out.println("4. See current cart");
+        System.out.println("0. Back");
+        System.out.println("--------------------------------");
+        System.out.print("Please choose a number: 0-1-2-3-4: ");
+    }
 
+    public static void mediaDetailsMenu() {
+        System.out.println("\nOptions: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. Add to cart");
+        System.out.println("2. Play");
+        System.out.println("0. Back");
+        System.out.println("--------------------------------");
+        System.out.print("Please choose a number: 0-1-2: ");
+    }
 
-        // Thử xóa đĩa dvd2 (Star Wars)
-        anOrder.removeDigitalVideoDisc(dvd2);
+    public static void cartMenu() {
+        System.out.println("\nOptions: ");
+        System.out.println("--------------------------------");
+        System.out.println("1. Filter media in cart");
+        System.out.println("2. Sort media in cart");
+        System.out.println("3. Remove media from cart");
+        System.out.println("4. Play a media");
+        System.out.println("5. Place order");
+        System.out.println("0. Back");
+        System.out.println("--------------------------------");
+        System.out.print("Please choose a number: 0-1-2-3-4-5: ");
+    }
+
+    // ==================== CÁC HÀM XỬ LÝ LOGIC ====================
+
+    // 1. CHỨC NĂNG: VIEW STORE
+    public static void viewStore() {
+        int choice;
+        do {
+            System.out.println("\n--- STORE INVENTORY ---");
+            store.print(); // Gọi hàm in danh sách cửa hàng
+            
+            storeMenu();
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    seeMediaDetails();
+                    break;
+                case 2:
+                    addMediaToCart();
+                    break;
+                case 3:
+                    playMedia();
+                    break;
+                case 4:
+                    seeCurrentCart();
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (choice != 0);
+    }
+
+    // Xem chi tiết Media (Từ Store Menu)
+    public static void seeMediaDetails() {
+        System.out.print("Enter the title of the media: ");
+        String title = scanner.nextLine();
+        // Giả sử Store có hàm searchByTitle trả về Media hoặc null
+        Media media = store.searchByTitle(title);
         
-        // In lại giỏ hàng để xác nhận đĩa dvd2 đã biến mất và tổng tiền được tính lại
-        anOrder.printCart();
+        if (media != null) {
+            System.out.println("Media Details: " + media.toString());
+            int detailChoice;
+            do {
+                mediaDetailsMenu();
+                detailChoice = scanner.nextInt();
+                scanner.nextLine();
+                
+                switch (detailChoice) {
+                    case 1:
+                        cart.addMedia(media);
+                        break;
+                    case 2:
+                        /* Bỏ comment khi có Playable
+                        if (media instanceof Playable) {
+                            ((Playable) media).play();
+                        } else {
+                            System.out.println("This media cannot be played.");
+                        }
+                        */
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        System.out.println("Invalid choice.");
+                }
+            } while (detailChoice != 0);
+        } else {
+            System.out.println("Media not found in store.");
+        }
+    }
 
-        // Kiểm tra ID tự động cấp phát 
-        System.out.println("ID 1 (" + dvd1.getTitle() + ") : " + dvd1.getId());
-        System.out.println("ID 2 (" + dvd2.getTitle() + ") : " + dvd2.getId());
-        System.out.println("ID 3 (" + dvd3.getTitle() + ") : " + dvd3.getId());
+    // Thêm Media vào Cart (Từ Store Menu)
+    public static void addMediaToCart() {
+        System.out.print("Enter the title of the media to add to cart: ");
+        String title = scanner.nextLine();
+        Media media = store.searchByTitle(title);
+        
+
+        if (media != null) {
+            cart.addMedia(media);
+            // Đoạn mã giả định Cart có hàm getItemsOrdered() trả về danh sách, hoặc tự đếm số lượng DVD
+            System.out.println("The media has been added. Current cart size: " + /* cart.getItemsOrdered().size() */ 0);
+        } else {
+            System.out.println("Media not found in store.");
+        }
+    }
+
+    // Play Media (Từ Store Menu)
+    public static void playMedia() {
+        System.out.print("Enter the title of the media to play: ");
+        String title = scanner.nextLine();
+        Media media = store.searchByTitle(title);
+        
+
+        if (media == null) {
+            System.out.println("Media not found in store.");
+        } else if (media instanceof Playable) {
+            ((Playable) media).play();
+        } else {
+            System.out.println("This media cannot be played.");
+        }
+    }
+
+    // 2. CHỨC NĂNG: UPDATE STORE
+    public static void updateStore() {
+        System.out.println("\n--- UPDATE STORE ---");
+        System.out.println("1. Add a media to store");
+        System.out.println("2. Remove a media from store");
+        System.out.println("0. Back");
+        System.out.print("Choose option: ");
+        int choice = scanner.nextInt();
+        scanner.nextLine();
+
+        if (choice == 1) {
+            System.out.println(">> (Feature to input new Media details and add to store...)");
+            // Logic tạo Media mới và store.addMedia(...)
+        } else if (choice == 2) {
+            System.out.print("Enter title to remove: ");
+            String title = scanner.nextLine();
+            Media m = store.searchByTitle(title);
+            if(m != null) store.removeMedia(m);
+        }
+    }
+
+    // 3. CHỨC NĂNG: SEE CURRENT CART
+    public static void seeCurrentCart() {
+        int choice;
+        do {
+            cart.print();
+            cartMenu();
+            choice = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (choice) {
+                case 1:
+                    filterCart();
+                    break;
+                case 2:
+                    sortCart();
+                    break;
+                case 3:
+                    System.out.print("Enter title to remove from cart: ");
+                    String titleToRemove = scanner.nextLine();
+                    // Viết hàm lấy Media từ Cart theo Title, sau đó cart.removeMedia(m);
+                    break;
+                case 4:
+                    System.out.print("Enter title to play: ");
+                    String titleToPlay = scanner.nextLine();
+                    // Tìm trong Cart, ép kiểu sang Playable và play() tương tự trên
+                    break;
+                case 5:
+                    System.out.println("An order has been created successfully!");
+                    // Làm rỗng giỏ hàng. Bạn cần viết hàm empty() trong lớp Cart:
+                    // cart = new Cart(); // Hoặc gọi cart.empty();
+                    choice = 0; // Đặt bằng 0 để thoát menu Cart sau khi Order
+                    break;
+                case 0:
+                    break;
+                default:
+                    System.out.println("Invalid choice.");
+            }
+        } while (choice != 0);
+    }
+
+    // Các hàm hỗ trợ Filter và Sort trong Cart
+    public static void filterCart() {
+        System.out.println("Filter by: 1. ID | 2. Title");
+        int option = scanner.nextInt();
+        scanner.nextLine();
+        if (option == 1) {
+            System.out.print("Enter ID: ");
+            int id = scanner.nextInt();
+            cart.searchById(id);
+        } else if (option == 2) {
+            System.out.print("Enter Title: ");
+            String title = scanner.nextLine();
+            cart.searchByTitle(title);
+        }
+    }
+
+    public static void sortCart() {
+        System.out.println("Sort by: 1. Title | 2. Cost");
+        int option = scanner.nextInt();
+        scanner.nextLine();
+        if (option == 1) {
+            cart.sortByTitle();
+            System.out.println("Cart sorted by Title.");
+        } else if (option == 2) {
+            cart.sortByCost();
+            System.out.println("Cart sorted by Cost.");
+        }
     }
 }

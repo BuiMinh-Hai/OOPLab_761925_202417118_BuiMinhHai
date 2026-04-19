@@ -1,5 +1,3 @@
-package hust.soict.globalict.aims.disc;
-
 public class DigitalVideoDisc {
     // Các thuộc tính cơ bản
     private String title;
@@ -11,7 +9,7 @@ public class DigitalVideoDisc {
     private static int nbDigitalVideoDiscs = 0; 
     private int id; 
 
-    // --- CÁC CONSTRUCTOR ---
+    
     public DigitalVideoDisc(String title) {
         super();
         this.title = title;
@@ -49,11 +47,12 @@ public class DigitalVideoDisc {
         this.id = nbDigitalVideoDiscs;
     }
 
-    // --- GETTERS VÀ SETTERS ---
+
     public String getTitle() {
         return title;
     }
 
+    // Setter cho title (Được thêm vào ở Mục 15 để test Passing Parameter)
     public void setTitle(String title) {
         this.title = title;
     }
@@ -74,24 +73,8 @@ public class DigitalVideoDisc {
         return cost;
     }
 
+    // Getter cho ID (Mục 16)
     public int getId() {
         return id;
-    }
-
-    // --- CÁC PHƯƠNG THỨC MỚI CHO LAB 03 ---
-
-    // Hàm trả về chuỗi thông tin định dạng chuẩn của DVD
-    public String toString() {
-        return "DVD - [" + this.title + "] - [" + this.category + "] - [" + this.director + "] - [" + this.length + "]: " + this.cost + " $";
-    }
-
-    // Hàm kiểm tra xem title đưa vào có khớp với title của đĩa không
-    public boolean isMatch(String title) {
-        // Kiểm tra an toàn để tránh lỗi NullPointerException
-        if (this.title == null || title == null) {
-            return false;
-        }
-        // So sánh 2 chuỗi (chuyển hết về chữ thường để so sánh không phân biệt hoa/thường)
-        return this.title.toLowerCase().contains(title.toLowerCase());
     }
 }
