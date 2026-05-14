@@ -44,4 +44,9 @@ public class Store {
         }
         return null;
     }
+
+    // Thêm hàm getter này để GUI có thể lấy được danh sách sản phẩm
+    public ArrayList<Media> getItemsInStore() {
+        return itemsInStore;
+    }
 }
