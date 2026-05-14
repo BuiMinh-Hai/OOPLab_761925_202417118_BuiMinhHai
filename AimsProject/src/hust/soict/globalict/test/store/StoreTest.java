@@ -15,13 +15,13 @@ public class StoreTest {
 
         // Test hàm addDVD
         System.out.println("--- Bắt đầu thêm đĩa vào Store ---");
-        store.addDVD(dvd1);
-        store.addDVD(dvd2);
-        store.addDVD(dvd3);
+        store.addMedia(dvd1);
+        store.addMedia(dvd2);
+        store.addMedia(dvd3);
 
         // Test hàm removeDVD
         System.out.println("\n--- Bắt đầu xóa đĩa khỏi Store ---");
-        store.removeDVD(dvd2); // Xóa đĩa có trong cửa hàng
-        store.removeDVD(dvd2); // Cố tình xóa lại đĩa vừa xóa xem có báo lỗi không
+        store.removeMedia(dvd2); // Xóa đĩa có trong cửa hàng
+        store.removeMedia(dvd2); // Cố tình xóa lại đĩa vừa xóa xem có báo lỗi không
     }
 }
