@@ -24,6 +24,22 @@ public class MediaStore extends JPanel {
 
         if (media instanceof Playable) {
             JButton playButton = new JButton("Play");
+            
+            // Thêm sự kiện click cho nút Play
+            playButton.addActionListener(e -> {
+                JDialog dialog = new JDialog();
+                dialog.setTitle("Playing Media");
+                dialog.setSize(300, 150);
+                dialog.setLayout(new BorderLayout());
+                
+                JLabel message = new JLabel("Currently playing: " + media.getTitle());
+                message.setHorizontalAlignment(SwingConstants.CENTER);
+                dialog.add(message, BorderLayout.CENTER);
+                
+                dialog.setLocationRelativeTo(null); // Căn giữa màn hình
+                dialog.setVisible(true);
+            });
+            
             container.add(playButton);
         }
 
