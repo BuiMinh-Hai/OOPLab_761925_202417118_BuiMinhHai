@@ -12,6 +12,10 @@ public class CompactDisc extends Disc implements Playable {
         super(id, title, category, cost, length, director);
         this.artist = artist;
     }
+    public CompactDisc(String title, String category, String director, int length, float cost, String artist) {
+        super(0, title, category, cost, length, director);
+        this.artist = artist;
+    }
 
     public void addTrack(Track track) {
         if (!tracks.contains(track)) {

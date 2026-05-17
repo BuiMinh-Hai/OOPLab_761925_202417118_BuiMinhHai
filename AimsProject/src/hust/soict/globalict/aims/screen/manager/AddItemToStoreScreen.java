@@ -1,16 +1,13 @@
 package hust.soict.globalict.aims.screen.manager;
 
 import hust.soict.globalict.aims.store.Store;
-import hust.soict.globalict.aims.media.Media;
-import hust.soict.globalict.aims.media.DigitalVideoDisc;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
-public class StoreManagerScreen extends JFrame {
-    private Store store;
+public abstract class AddItemToStoreScreen extends JFrame {
+    protected Store store;
 
-    public StoreManagerScreen(Store store) {
+    public AddItemToStoreScreen(Store store) {
         this.store = store;
         Container cp = getContentPane();
         cp.setLayout(new BorderLayout());
@@ -18,7 +15,6 @@ public class StoreManagerScreen extends JFrame {
         cp.add(createNorth(), BorderLayout.NORTH);
         cp.add(createCenter(), BorderLayout.CENTER);
 
-        setTitle("Store");
         setSize(1024, 768);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -35,8 +31,13 @@ public class StoreManagerScreen extends JFrame {
 
     JMenuBar createMenuBar() {
         JMenu menu = new JMenu("Options");
+
         JMenuItem viewStoreMenu = new JMenuItem("View store");
         menu.add(viewStoreMenu);
+        viewStoreMenu.addActionListener(e -> {
+            new StoreManagerScreen(store);
+            dispose();
+        });
 
         JMenu smUpdateStore = new JMenu("Update Store");
         JMenuItem addBookMenu = new JMenuItem("Add Book");
@@ -50,16 +51,6 @@ public class StoreManagerScreen extends JFrame {
 
         addDVDMenu.addActionListener(e -> {
             new AddDigitalVideoDiscToStoreScreen(store);
-            dispose();
-        });
-
-        addBookMenu.addActionListener(e -> {
-            new AddBookToStoreScreen(store);
-            dispose();
-        });
-
-        addCDMenu.addActionListener(e -> {
-            new AddCompactDiscToStoreScreen(store);
             dispose();
         });
 
@@ -86,43 +77,5 @@ public class StoreManagerScreen extends JFrame {
         return header;
     }
 
-    JPanel createCenter() {
-        JPanel center = new JPanel();
-        center.setLayout(new GridLayout(0, 3, 2, 2));
-
-        ArrayList<Media> mediaInStore = store.getItemsInStore();
-        for (int i = 0; i < mediaInStore.size(); i++) {
-            MediaStore cell = new MediaStore(mediaInStore.get(i));
-            center.add(cell);
-        }
-
-        JScrollPane scrollPane = new JScrollPane(center);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
-        scrollPane.setBorder(BorderFactory.createEmptyBorder());
-
-        JPanel wrapper = new JPanel(new BorderLayout());
-        wrapper.add(scrollPane, BorderLayout.CENTER);
-
-        return wrapper;
-    }
-
-    public static void main(String[] args) {
-        // Tạo một store giả lập
-        Store testStore = new Store();
-
-        
-        for (int i = 1; i <= 30; i++) {
-            DigitalVideoDisc dvd = new DigitalVideoDisc(
-                    "Test Movie " + i,
-                    "Category " + i,
-                    "Director",
-                    90 + i,
-                    15.5f + i);
-            testStore.addMedia(dvd);
-        }
-
-        // Khởi tạo giao diện
-        new StoreManagerScreen(testStore);
-    }
+    abstract JPanel createCenter();
 }
