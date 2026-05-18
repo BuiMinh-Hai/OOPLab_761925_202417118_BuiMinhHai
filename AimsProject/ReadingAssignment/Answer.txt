@@ -1,80 +1,16 @@
-4. Update the Cart class and CartTest class
-What should be the return type of the toString() method?
-The return type must strictly be String.
-In Java, every class inherits from the Object class, which has a default public String toString() method. When you write this method in your DigitalVideoDisc class, you are overriding the parent's method, so the method signature (including the return type) must match exactly.
 
-14. Constructors of whole classes and parent classes
-Which classes are aggregates of other classes?
-In your project, the Cart and Store classes are aggregates of the Media class (and by extension, its subclasses like DigitalVideoDisc, CompactDisc, etc.). "Aggregation" represents a "HAS-A" relationship: a Cart has a collection of Media, but the Media can exist independently of the Cart.
+1. Compare the top-level containers in Swing and AWT:
+- In AWT, the top-level container is Frame. GUI components are added directly to the Frame object.
+- In Swing, the top-level container is JFrame. Unlike AWT, lightweight JComponents cannot be added directly to the top-level container. They must be added to its content-pane (which is a java.awt.Container) using the getContentPane().add() method.
 
-Checking all constructors of whole classes if they initialize for their parts?
-Yes, the constructors of the "whole" classes (Cart and Store) must initialize their parts. Specifically, when you create a new Cart or Store, their constructors (even the default empty ones) must initialize the ArrayList<Media> (e.g., itemsOrdered = new ArrayList<Media>();). If you forget to initialize the list, adding items will cause a NullPointerException.
+2. Compare the class name of components in AWT and the corresponding class's name in Swing:
+- Swing component classes generally add a "J" prefix to the corresponding AWT component class names. 
+- For example, AWT uses Label, TextField, and Button, whereas Swing uses JLabel, JTextField, and JButton respectively.
 
-15. Unique item in a list
-If the passing object is not an instance of Media, what happens?
-If you blindly cast the Object obj to Media without checking its type, and the passed object is not a Media (for example, if someone passes a String or a Scanner object into the equals method), Java will throw a ClassCastException at runtime, causing your program to crash.
+3. Compare the event-handling of Swing and AWT applications:
+- The event-handling mechanism is exactly the same in both libraries.
+- Both use the same event listener interfaces (e.g., implementing ActionListener) and methods (e.g., overriding actionPerformed(ActionEvent e)) to handle user interactions like button clicks or pressing Enter.
 
-To prevent this, you must always use the instanceof operator first:
-
-Java
-@Override
-public boolean equals(Object obj) {
-    if (obj instanceof Media) { // Safety check
-        Media other = (Media) obj;
-        // Proceed with comparison...
-    }
-    return false; // Safely return false if it's not a Media object
-}
-16. Polymorphism with toString() method
-What are the advantages of Polymorphism?
-
-Flexibility & Reusability: You can write a single, generic piece of code that handles many different types. For example, your Cart.print() method loops through an ArrayList<Media> and calls m.toString(). It doesn't need to know if the item is a DVD, CD, or Book; Polymorphism ensures the correct subclass version of toString() is executed.
-
-Maintainability: If you add a new media type in the future (e.g., VinylRecord), you do not need to rewrite the Cart class. You just create the new class, make it extend Media, and override its methods.
-
-How is Inheritance useful to achieve Polymorphism in Java?
-Inheritance provides the foundational "IS-A" relationship required for Polymorphism. Because DigitalVideoDisc IS-A Media, you can use a parent reference variable to hold a child object (Upcasting: Media m = new DigitalVideoDisc()). This allows the Java Virtual Machine (JVM) to perform dynamic method dispatch—deciding at runtime which overridden method to call based on the actual object type, not the reference type.
-
-What are the differences between Polymorphism and Inheritance in Java?
-
-Inheritance is a structural concept. It is the mechanism of creating a new class from an existing one to reuse code and establish relationships.
-
-Polymorphism is a behavioral concept. It is the ability of a single method or reference to behave differently depending on the context (the actual object invoking it). Inheritance is simply the tool we use to set up Polymorphism.
-
-17. Sort media in the cart
-What class should implement the Comparable interface?
-The Media class should implement Comparable<Media>. This provides the "natural" or default sorting order for all media items.
-
-In those classes, how should you implement the compareTo() method to reflect the ordering that we want?
-You implement it by comparing the attributes of the current object (this) with the passed object. For example, to sort by title:
-
-Java
-public int compareTo(Media other) {
-    return this.title.compareTo(other.title);
-}
-Can we have two ordering rules of the item (by title then cost and by cost then title) if we use this Comparable interface approach?
-No. The Comparable interface only allows you to define one natural sorting rule because you can only override the compareTo() method once per class. To support multiple, different sorting rules, you must use the Comparator interface (which is exactly what you did by creating MediaComparatorByTitleCost and MediaComparatorByCostTitle).
-
-Suppose the DVDs have a different ordering rule from the other media types (by title, then decreasing length, then cost). How would you modify your code to allow this?
-Because this specific rule requires checking the length property (which only exists in DigitalVideoDisc or Track, not in Media), you cannot do this using standard polymorphism on the generic Media list without type checking.
-
-To achieve this, you would modify your Comparator to check the object types using instanceof before comparing:
-
-Java
-public int compare(Media m1, Media m2) {
-    if (m1 instanceof DigitalVideoDisc && m2 instanceof DigitalVideoDisc) {
-        DigitalVideoDisc d1 = (DigitalVideoDisc) m1;
-        DigitalVideoDisc d2 = (DigitalVideoDisc) m2;
-        
-        int titleCompare = d1.getTitle().compareTo(d2.getTitle());
-        if (titleCompare != 0) return titleCompare;
-        
-
-        int lengthCompare = Integer.compare(d2.getLength(), d1.getLength());
-        if (lengthCompare != 0) return lengthCompare;
-        
-
-        return Float.compare(d1.getCost(), d2.getCost());
-    }
-    // Fallback logic for other Media types...
-}
+4. Compare the resulting appearances of the applications:
+- AWT uses "heavyweight" components. It relies on the underlying operating system's native GUI subsystem to render them. Therefore, an AWT application will look like a native Windows app on Windows, but like a native macOS app on a Mac.
+- Swing uses "lightweight" components that are painted entirely by Java's rendering engine. This allows Swing applications to maintain a consistent appearance (Look and Feel) across all different platforms and operating systems.
