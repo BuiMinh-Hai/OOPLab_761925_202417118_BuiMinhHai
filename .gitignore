@@ -1,0 +1,5 @@
+# Bỏ qua tất cả các file class
+*.class
+
+# Bỏ qua thư mục bin 
+bin/
