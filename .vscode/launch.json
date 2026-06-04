@@ -1,0 +1,20 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Painter",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.javafx.Painter",
+            "projectName": "OOPLab_761925_202417118_BuiMinhHai_2ecec87c"
+        },
+        {
+            "type": "java",
+            "name": "Run Painter App",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.javafx.Painter",
+            "projectName": "GUIProject",
+            "vmArgs": "--module-path \"C:/javafx/javafx-sdk-17/javafx-sdk-17.0.19/lib\" --add-modules javafx.controls,javafx.fxml"
+        }
+    ]
+}

@@ -1,5 +1,6 @@
 # Bỏ qua tất cả các file class
 *.class
+*.pdf
 
 # Bỏ qua thư mục bin 
 bin/
