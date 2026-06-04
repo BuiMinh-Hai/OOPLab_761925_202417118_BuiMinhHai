@@ -19,11 +19,17 @@ public class PainterController {
     }
 
     @FXML
+    private RadioButton penRadioButton;
+
+    @FXML
+    private RadioButton eraserRadioButton;
+
+    @FXML
     void drawingAreaMouseDragged(MouseEvent event) {
-        // Default color for pen
-        Color color = Color.BLACK;
+        // Change color based on selected tool
+        Color color = penRadioButton.isSelected() ? Color.BLACK : Color.WHITE;
         
-        // TODO: Update this later for the Eraser logic if needed
+        // Ensure drawing is within bounds
         if (event.getX() >= 0 && event.getX() <= drawingAreaPane.getWidth() &&
             event.getY() >= 0 && event.getY() <= drawingAreaPane.getHeight()) {
             Circle newCircle = new Circle(event.getX(), event.getY(), 4, color);
