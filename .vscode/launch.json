@@ -3,6 +3,20 @@
     "configurations": [
         {
             "type": "java",
+            "name": "StoreManagerScreen",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.aims.screen.manager.StoreManagerScreen",
+            "projectName": "OOPLab_761925_202417118_BuiMinhHai_2ecec87c"
+        },
+        {
+            "type": "java",
+            "name": "TestViewStoreScreen",
+            "request": "launch",
+            "mainClass": "hust.soict.globalict.test.screen.customer.store.TestViewStoreScreen",
+            "projectName": "OOPLab_761925_202417118_BuiMinhHai_2ecec87c"
+        },
+        {
+            "type": "java",
             "name": "Painter",
             "request": "launch",
             "mainClass": "hust.soict.globalict.javafx.Painter",

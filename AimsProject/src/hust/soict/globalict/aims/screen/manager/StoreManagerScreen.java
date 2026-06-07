@@ -112,7 +112,7 @@ public class StoreManagerScreen extends JFrame {
         Store testStore = new Store();
 
         
-        for (int i = 1; i <= 30; i++) {
+        for (int i = 1; i <= 9; i++) {
             DigitalVideoDisc dvd = new DigitalVideoDisc(
                     "Test Movie " + i,
                     "Category " + i,
