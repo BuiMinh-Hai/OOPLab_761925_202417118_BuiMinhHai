@@ -2,7 +2,7 @@ package hust.soict.globalict.aims.media;
 
 import java.util.Comparator;
 
-public abstract class Media {
+public abstract class Media implements Comparable<Media> {
     private int id;
     private String title;
     private String category;
@@ -17,6 +17,9 @@ public abstract class Media {
     }
 
     public Media(int id, String title, String category, float cost) {
+        if (cost < 0) {
+            throw new IllegalArgumentException("Cost cannot be negative!");
+        }
         this.id = id;
         this.title = title;
         this.category = category;
@@ -33,16 +36,38 @@ public abstract class Media {
     public void setId(int id) { this.id = id; }
     public void setTitle(String title) { this.title = title; }
     public void setCategory(String category) { this.category = category; }
-    public void setCost(float cost) { this.cost = cost; }
+    public void setCost(float cost) {
+        if (cost < 0) {
+            throw new IllegalArgumentException("Cost cannot be negative!");
+        }
+        this.cost = cost;
+    }
 
-    // Override equals() để kiểm tra trùng lặp dựa trên title (Phần 15)
     @Override
     public boolean equals(Object obj) {
-        if (obj instanceof Media) {
+        try {
             Media other = (Media) obj;
-            return this.title != null && this.title.equalsIgnoreCase(other.getTitle());
+            return this.title != null && this.title.equals(other.getTitle()) && this.cost == other.getCost();
+        } catch (NullPointerException e) {
+            System.err.println("Lỗi NullPointerException: Đối tượng so sánh là null.");
+            return false;
+        } catch (ClassCastException e) {
+            System.err.println("Lỗi ClassCastException: Đối tượng so sánh không phải là Media.");
+            return false;
         }
-        return false;
+    }
+
+    @Override
+    public int compareTo(Media other) {
+        if (other == null) {
+            throw new NullPointerException("Lỗi NullPointerException: Không thể so sánh với null.");
+        }
+        int titleCompare = this.title.compareTo(other.getTitle());
+        if (titleCompare != 0) {
+            return titleCompare;
+        } else {
+            return Float.compare(this.cost, other.getCost());
+        }
     }
 
     public boolean isMatch(String title) {

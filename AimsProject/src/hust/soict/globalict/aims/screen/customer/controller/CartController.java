@@ -143,11 +143,20 @@ public class CartController {
     void btnPlayPressed(ActionEvent event) {
         Media media = tblMedia.getSelectionModel().getSelectedItem();
         if (media instanceof hust.soict.globalict.aims.media.Playable) {
-            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-            alert.setTitle("Play");
-            alert.setHeaderText(null);
-            alert.setContentText("Playing " + media.getTitle());
-            alert.showAndWait();
+            try {
+                ((hust.soict.globalict.aims.media.Playable) media).play();
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+                alert.setTitle("Play");
+                alert.setHeaderText(null);
+                alert.setContentText("Playing " + media.getTitle());
+                alert.showAndWait();
+            } catch (hust.soict.globalict.aims.exception.PlayerException e) {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Cannot play media");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
         }
     }
 

@@ -5,7 +5,8 @@ import hust.soict.globalict.aims.media.DigitalVideoDisc;
 import hust.soict.globalict.aims.media.Media;
 import hust.soict.globalict.aims.media.Playable;
 import hust.soict.globalict.aims.store.Store;
-import java.util.Scanner; // Bỏ comment nếu bạn đã tạo Playable
+import hust.soict.globalict.aims.exception.PlayerException;
+import java.util.Scanner;
 
 public class Aims {
     
@@ -15,7 +16,7 @@ public class Aims {
     public static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
-        // --- Thêm dữ liệu mẫu vào Store ở đây ---
+        // --- Thêm dữ liệu mẫu vào Store ---
         store.addMedia(new DigitalVideoDisc("The Lion King", "Animation", "Roger Allers", 87, 19.95f));
         store.addMedia(new DigitalVideoDisc("Star Wars", "Science Fiction", "George Lucas", 87, 24.95f));
         store.addMedia(new DigitalVideoDisc("Aladin", "Animation", 18.99f));
@@ -146,16 +147,22 @@ public class Aims {
                 
                 switch (detailChoice) {
                     case 1:
-                        cart.addMedia(media);
+                        try {
+                            cart.addMedia(media);
+                        } catch (hust.soict.globalict.aims.exception.LimitExceededException e) {
+                            System.out.println(e.getMessage());
+                        }
                         break;
                     case 2:
-                        /* Bỏ comment khi có Playable
                         if (media instanceof Playable) {
-                            ((Playable) media).play();
+                            try {
+                                ((Playable) media).play();
+                            } catch (PlayerException e) {
+                                System.out.println(e.getMessage());
+                            }
                         } else {
                             System.out.println("This media cannot be played.");
                         }
-                        */
                         break;
                     case 0:
                         break;
@@ -176,9 +183,12 @@ public class Aims {
         
 
         if (media != null) {
-            cart.addMedia(media);
-            // Đoạn mã giả định Cart có hàm getItemsOrdered() trả về danh sách, hoặc tự đếm số lượng DVD
-            System.out.println("The media has been added. Current cart size: " + /* cart.getItemsOrdered().size() */ 0);
+            try {
+                cart.addMedia(media);
+                System.out.println("The media has been added. Current cart size: " + cart.getItemsOrdered().size());
+            } catch (hust.soict.globalict.aims.exception.LimitExceededException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             System.out.println("Media not found in store.");
         }
@@ -194,7 +204,11 @@ public class Aims {
         if (media == null) {
             System.out.println("Media not found in store.");
         } else if (media instanceof Playable) {
-            ((Playable) media).play();
+            try {
+                ((Playable) media).play();
+            } catch (PlayerException e) {
+                System.out.println(e.getMessage());
+            }
         } else {
             System.out.println("This media cannot be played.");
         }
@@ -245,7 +259,18 @@ public class Aims {
                 case 4:
                     System.out.print("Enter title to play: ");
                     String titleToPlay = scanner.nextLine();
-                    // Tìm trong Cart, ép kiểu sang Playable và play() tương tự trên
+                    Media mediaToPlay = cart.searchByTitleReturn(titleToPlay);
+                    if (mediaToPlay != null) {
+                        if (mediaToPlay instanceof Playable) {
+                            try {
+                                ((Playable) mediaToPlay).play();
+                            } catch (PlayerException e) {
+                                System.out.println(e.getMessage());
+                            }
+                        } else {
+                            System.out.println("This media cannot be played.");
+                        }
+                    }
                     break;
                 case 5:
                     System.out.println("An order has been created successfully!");

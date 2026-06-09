@@ -10,6 +10,9 @@ public class Track implements Playable {
     public int getLength() { return length; }
 
     public Track(String title, int length) {
+        if (length < 0) {
+            throw new IllegalArgumentException("Length cannot be negative!");
+        }
         this.title = title;
         this.length = length;
     }

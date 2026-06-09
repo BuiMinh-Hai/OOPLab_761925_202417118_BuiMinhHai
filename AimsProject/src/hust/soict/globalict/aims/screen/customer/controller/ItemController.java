@@ -46,22 +46,39 @@ public class ItemController {
 
     @FXML
     void btnAddToCartClicked(ActionEvent event) {
-        cart.addMedia(media);
-        javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-        alert.setTitle("Add to cart");
-        alert.setHeaderText(null);
-        alert.setContentText("Added " + media.getTitle() + " to cart!");
-        alert.showAndWait();
+        try {
+            cart.addMedia(media);
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+            alert.setTitle("Add to cart");
+            alert.setHeaderText(null);
+            alert.setContentText("Added " + media.getTitle() + " to cart!");
+            alert.showAndWait();
+        } catch (hust.soict.globalict.aims.exception.LimitExceededException e) {
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Cannot add media");
+            alert.setContentText(e.getMessage());
+            alert.showAndWait();
+        }
     }
 
     @FXML
     void btnPlayClicked(ActionEvent event) {
         if (media instanceof Playable) {
-            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
-            alert.setTitle("Play");
-            alert.setHeaderText(null);
-            alert.setContentText("Playing " + media.getTitle());
-            alert.showAndWait();
+            try {
+                ((Playable) media).play();
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.INFORMATION);
+                alert.setTitle("Play");
+                alert.setHeaderText(null);
+                alert.setContentText("Playing " + media.getTitle());
+                alert.showAndWait();
+            } catch (hust.soict.globalict.aims.exception.PlayerException e) {
+                javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+                alert.setTitle("Error");
+                alert.setHeaderText("Cannot play media");
+                alert.setContentText(e.getMessage());
+                alert.showAndWait();
+            }
         }
     }
 

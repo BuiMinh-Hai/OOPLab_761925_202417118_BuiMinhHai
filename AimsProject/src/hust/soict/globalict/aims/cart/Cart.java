@@ -15,7 +15,7 @@ public class Cart {
         return itemsOrdered;
     }
     // Thêm một sản phẩm
-    public void addMedia(Media media) {
+    public void addMedia(Media media) throws hust.soict.globalict.aims.exception.LimitExceededException {
         if (itemsOrdered.size() < MAX_NUMBERS_ORDERED) {
             if (!itemsOrdered.contains(media)) {
                 itemsOrdered.add(media);
@@ -24,14 +24,14 @@ public class Cart {
                 System.out.println("The media " + media.getTitle() + " is already in the cart.");
             }
         } else {
-            System.out.println("The cart is full.");
+            throw new hust.soict.globalict.aims.exception.LimitExceededException("ERROR: The number of media has reached its limit");
         }
     }
-    public void addMedia(Media[] mediaList) {
-    for (Media m : mediaList) {
-        addMedia(m);
+    public void addMedia(Media[] mediaList) throws hust.soict.globalict.aims.exception.LimitExceededException {
+        for (Media m : mediaList) {
+            addMedia(m);
+        }
     }
-}
 
     // Xóa một sản phẩm
     public void removeMedia(Media media) {
@@ -85,6 +85,15 @@ public class Cart {
             }
         }
         if (!found) System.out.println("No match found for title: " + title);
+    }
+
+    public Media searchByTitleReturn(String title) {
+        for (Media m : itemsOrdered) {
+            if (m.isMatch(title)) {
+                return m;
+            }
+        }
+        return null;
     }
 
     // Sắp xếp
