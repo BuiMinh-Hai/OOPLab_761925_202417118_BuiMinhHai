@@ -3,12 +3,17 @@ package hust.soict.globalict.aims.cart;
 import java.util.ArrayList;
 import java.util.Collections;
 import hust.soict.globalict.aims.media.Media;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class Cart {
     public static final int MAX_NUMBERS_ORDERED = 20;
     // Chỉ sử dụng ArrayList để chứa mọi loại Media (DVD, Book, CD)
-    private ArrayList<Media> itemsOrdered = new ArrayList<Media>();
+    private ObservableList<Media> itemsOrdered = FXCollections.observableArrayList();
 
+    public ObservableList<Media> getItemsOrdered() {
+        return itemsOrdered;
+    }
     // Thêm một sản phẩm
     public void addMedia(Media media) {
         if (itemsOrdered.size() < MAX_NUMBERS_ORDERED) {

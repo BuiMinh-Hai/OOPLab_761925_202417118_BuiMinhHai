@@ -11,12 +11,13 @@ import javafx.stage.Stage;
 
 public class TestViewStoreScreen extends Application {
     private static Store store;
+    private static hust.soict.globalict.aims.cart.Cart cart;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         final String STORE_FXML_FILE_PATH = "/hust/soict/globalict/aims/screen/customer/view/Store.fxml";
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(STORE_FXML_FILE_PATH));
-        ViewStoreController viewStoreController = new ViewStoreController(store);
+        ViewStoreController viewStoreController = new ViewStoreController(store, cart);
         fxmlLoader.setController(viewStoreController);
         Parent root = fxmlLoader.load();
 
@@ -27,8 +28,9 @@ public class TestViewStoreScreen extends Application {
 
     public static void main(String[] args) {
         store = new Store();
+        cart = new hust.soict.globalict.aims.cart.Cart();
         // Add some items to store here
-        for (int i = 1; i <= 9; i++) {
+        for (int i = 1; i <= 4; i++) {
             DigitalVideoDisc dvd = new DigitalVideoDisc(
                     "Test Movie " + i,
                     "Category " + i,
@@ -37,7 +39,7 @@ public class TestViewStoreScreen extends Application {
                     19.95f + i);
             store.addMedia(dvd);
         }
-        
+
         launch(args);
     }
 }

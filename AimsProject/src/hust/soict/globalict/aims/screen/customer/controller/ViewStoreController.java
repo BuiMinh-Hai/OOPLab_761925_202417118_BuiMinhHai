@@ -1,12 +1,17 @@
 package hust.soict.globalict.aims.screen.customer.controller;
 
+import hust.soict.globalict.aims.cart.Cart;
 import hust.soict.globalict.aims.store.Store;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 
 import java.io.IOException;
 
@@ -16,9 +21,11 @@ public class ViewStoreController {
     private GridPane gridPane;
 
     private Store store;
+    private Cart cart;
 
-    public ViewStoreController(Store store) {
+    public ViewStoreController(Store store, Cart cart) {
         this.store = store;
+        this.cart = cart;
     }
 
     @FXML
@@ -30,7 +37,7 @@ public class ViewStoreController {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader();
                 fxmlLoader.setLocation(getClass().getResource(ITEM_FXML_FILE_PATH));
-                ItemController itemController = new ItemController();
+                ItemController itemController = new ItemController(cart);
                 fxmlLoader.setController(itemController);
                 AnchorPane anchorPane = new AnchorPane();
                 anchorPane = fxmlLoader.load();
@@ -51,7 +58,24 @@ public class ViewStoreController {
 
     @FXML
     void btnViewCartPressed(ActionEvent event) {
-        // To be implemented later (switch to Cart screen)
+        try {
+            final String CART_FXML_FILE_PATH = "/hust/soict/globalict/aims/screen/customer/view/Cart.fxml";
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(CART_FXML_FILE_PATH));
+            CartController cartController = new CartController(store, cart);
+            fxmlLoader.setController(cartController);
+            Parent root = fxmlLoader.load();
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.setTitle("Cart");
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            javafx.scene.control.Alert alert = new javafx.scene.control.Alert(javafx.scene.control.Alert.AlertType.ERROR);
+            alert.setTitle("Error");
+            alert.setHeaderText("Failed to load Cart screen");
+            alert.setContentText(e.getMessage() + "\n" + e.toString());
+            alert.showAndWait();
+        }
     }
 
     @FXML

@@ -13,7 +13,8 @@
             "name": "TestViewStoreScreen",
             "request": "launch",
             "mainClass": "hust.soict.globalict.test.screen.customer.store.TestViewStoreScreen",
-            "projectName": "OOPLab_761925_202417118_BuiMinhHai_2ecec87c"
+            "projectName": "OOPLab_761925_202417118_BuiMinhHai_2ecec87c",
+            "vmArgs": "--module-path \"C:/javafx/javafx-sdk-17/javafx-sdk-17.0.19/lib\" --add-modules javafx.controls,javafx.fxml"
         },
         {
             "type": "java",
