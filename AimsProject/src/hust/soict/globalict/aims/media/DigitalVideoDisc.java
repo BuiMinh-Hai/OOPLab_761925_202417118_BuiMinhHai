@@ -1,5 +1,7 @@
 package hust.soict.globalict.aims.media;
 
+import hust.soict.globalict.aims.exception.PlayerException;
+
 public class DigitalVideoDisc extends Media implements Playable{
     // CHỈ GIỮ LẠI các thuộc tính riêng biệt của DVD
     private String director;
@@ -83,8 +85,13 @@ public class DigitalVideoDisc extends Media implements Playable{
         return this.getTitle().toLowerCase().contains(title.toLowerCase());
     }
     @Override
-    public void play() {
-        System.out.println("Playing DVD: " + this.getTitle());
-        System.out.println("DVD length: " + this.getLength());
+    public void play() throws PlayerException {
+        if (this.getLength() > 0) {
+            System.out.println("Playing DVD: " + this.getTitle());
+            System.out.println("DVD length: " + this.getLength());
+        } else {
+            System.err.println("ERROR: DVD length is non-positive!");
+            throw new PlayerException("ERROR: DVD length is non-positive!");
+        }
     }
 }
