@@ -1,16 +1,25 @@
+1. What is the difference between Checked Exception and Unchecked Exception?
 
-1. Compare the top-level containers in Swing and AWT:
-- In AWT, the top-level container is Frame. GUI components are added directly to the Frame object.
-- In Swing, the top-level container is JFrame. Unlike AWT, lightweight JComponents cannot be added directly to the top-level container. They must be added to its content-pane (which is a java.awt.Container) using the getContentPane().add() method.
+Checked Exception: These are exceptions that the compiler requires you to handle (using a try-catch block) or declare in the method signature (using throws). They represent conditions outside the immediate control of the program (e.g., IOException, SQLException).
 
-2. Compare the class name of components in AWT and the corresponding class's name in Swing:
-- Swing component classes generally add a "J" prefix to the corresponding AWT component class names. 
-- For example, AWT uses Label, TextField, and Button, whereas Swing uses JLabel, JTextField, and JButton respectively.
+Unchecked Exception: These are exceptions that inherit from RuntimeException. The compiler does not force you to handle them. They usually indicate programming logic errors (e.g., NullPointerException, IndexOutOfBoundsException, ArithmeticException).
 
-3. Compare the event-handling of Swing and AWT applications:
-- The event-handling mechanism is exactly the same in both libraries.
-- Both use the same event listener interfaces (e.g., implementing ActionListener) and methods (e.g., overriding actionPerformed(ActionEvent e)) to handle user interactions like button clicks or pressing Enter.
+2. Why do we need to use try-catch blocks?
 
-4. Compare the resulting appearances of the applications:
-- AWT uses "heavyweight" components. It relies on the underlying operating system's native GUI subsystem to render them. Therefore, an AWT application will look like a native Windows app on Windows, but like a native macOS app on a Mac.
-- Swing uses "lightweight" components that are painted entirely by Java's rendering engine. This allows Swing applications to maintain a consistent appearance (Look and Feel) across all different platforms and operating systems.
+try-catch blocks prevent the program from crashing abruptly when an exception occurs. They allow developers to catch the exception, log the error, notify the user, or perform necessary cleanup operations so the program can continue running stably.
+
+3. What is the purpose of the finally block in exception handling?
+
+The finally block is used to execute crucial pieces of code regardless of whether an exception occurred or not. It is primarily used to release system resources, such as closing database connections, closing files, or closing data streams.
+
+4. How does JavaFX handle events compared to Swing?
+
+Both frameworks use "Event-driven programming". However, JavaFX provides a more modern approach with Property Binding and Observable lists. Additionally, in JavaFX, we typically use FXML to strictly separate the user interface (View) from the application logic (Controller), which makes the code much cleaner compared to writing everything in a .java file like in Swing.
+
+5. What is the role of a Controller in the JavaFX MVC architecture?
+
+The Controller acts as a bridge between the View (the FXML file) and the Model (the data). It handles user interactions and events from the GUI (like button clicks), updates the Model's data, and refreshes the View based on those data changes.
+
+6. Why did we need to update the equals() and compareTo() methods in the Media class?
+
+We update these methods so that data structures like ArrayList or Set can correctly compare and search for Media objects based on our specific business logic (for example, two media items are considered equal if they have the same title and cost). Updating these also helps prevent unexpected runtime errors like ClassCastException and NullPointerException when comparing objects
