@@ -30,7 +30,7 @@ public class TestViewStoreScreen extends Application {
         store = new Store();
         cart = new hust.soict.globalict.aims.cart.Cart();
         // Add some items to store here
-        for (int i = 1; i <= 4; i++) {
+        for (int i = 1; i <= 9; i++) {
             DigitalVideoDisc dvd = new DigitalVideoDisc(
                     "Test Movie " + i,
                     "Category " + i,
